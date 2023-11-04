@@ -7,6 +7,13 @@ npm i
 npm start
 ```
 
+### 사용 라이브러리
+
+- styld-components
+- recoil
+- msw
+- axios
+
 ### 코드리뷰 고민
 
 1. 삼단논법에 대한 고민 : pages > Home.tsx
