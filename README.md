@@ -7,45 +7,15 @@ npm i
 npm start
 ```
 
-### 라이브러리
+### 사용 라이브러리
 
-```
-- react
-- typescript && @types/react, react-dom, styled-components, react-query
-- react-router-dom
+- styld-components
 - recoil
-- react-query
-- styled-components
+- msw
 - axios
-```
 
-### 미설치 라이브러리
+### 코드리뷰 고민
 
-```
-- react-icons
-- http-proxy-middleware(local proxy)
-```
-
-### 프로젝트 적용 설정
-
-```
-- 절대경로 적용 : 모든 경로는 ./src 로 시작함
-- proxy 미적용 : package.json에 필요시 문장 추가 "proxy": "http://localhost:8000"
-```
-
-### 프로젝트 미적용 설정(.env)
-
-```
-- api_key 등록 (git에 안올라가서 매 번 갱신 필요)
-```
-
-### To-do
-
-```
-- TestCode
-- Webpack or Vite
-- 배포관련
-- 최적화기법
-- 폴더구조 연구
-- useEffect 툴 제작
-```
+1. 삼단논법에 대한 고민 : pages > Home.tsx
+2. BlockTree 타입 가드에 대한 고민 : components > BlockTree.tsx
+3. BlockTree 재귀 코드에 대한 고민 : 재귀를 쓸 일이 있는 가..? 더 좋은 방법이 있을까?

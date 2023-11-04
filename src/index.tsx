@@ -5,7 +5,9 @@ import reportWebVitals from "./reportWebVitals";
 import { RecoilRoot } from "recoil";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { worker } from "./mocks/browser";
 
+worker.start();
 const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(
