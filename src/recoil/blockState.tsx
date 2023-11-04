@@ -8,7 +8,6 @@ export const blockDataState = atom<Block[]>({
 
 export const useFindBlock = (blockId: number) => {
   const [blockDatas, setBlockDatas] = useRecoilState(blockDataState);
-
   let block = {} as Block;
   for (let i = 0; i < blockDatas.length; i += 1) {
     if (blockDatas[i].blockId === blockId) {

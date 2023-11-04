@@ -1,44 +1,54 @@
-import { useEffect } from "react";
-import { useRecoilState } from "recoil";
-import { blockDataState } from "recoil/blockState";
-import { pageState } from "recoil/pageState";
-import BlockServices from "services/blockServices";
-import styled from "styled-components";
-import Tree from "./Tree";
+import { Block } from "../types/blockType";
+import TextBlock from "./TextBlock";
+import ImageBlock from "./ImageBlock";
+import { useFindBlock } from "recoil/blockState";
 
-export default function BlockTree() {
-  const [page, setPage] = useRecoilState(pageState);
-  const [blockDatas, setBlockDatas] = useRecoilState(blockDataState);
+export default function BlockTree(props: { blockId: number }) {
+  const { blockId } = props;
+  const block: Block | null = useFindBlock(blockId);
 
-  useEffect(() => {
-    BlockServices.getBlocks(page).then((res) =>
-      setBlockDatas(res.data.data.blocks)
-    );
-  }, [page, setBlockDatas]);
+  // Block Type Guard를 위해서 작성했는데 이 부분이 좀 고민됩니다.
+  if (!block) {
+    return <div></div>;
+  }
+
+  const nameSelector = (deps: number) => {
+    switch (deps) {
+      case 0:
+        return "blockPage";
+      case 1:
+        return "blockLine";
+      case 2:
+        return "blockInlineList";
+      default:
+        return "";
+    }
+  };
+
+  const componentSelctor = (type: string, data: any) => {
+    switch (type) {
+      case "text":
+        return <TextBlock data={data} />;
+      case "image":
+        return <ImageBlock data={data} />;
+      default:
+        return <div />;
+    }
+  };
 
   return (
-    <Container>
-      <Tree blockId={0} />
-    </Container>
+    <>
+      {block.type === "node" ? (
+        <div className={nameSelector(block.deps)}>
+          {block.childernIds.map((childId) => (
+            <div key={childId}>
+              <BlockTree blockId={childId} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <>{componentSelctor(block.type, block.data)}</>
+      )}
+    </>
   );
 }
-
-const Container = styled.div`
-  .blockPage {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid black;
-  }
-  .blockLine {
-    display: flex;
-    align-items: center;
-    border: 1px solid blue;
-  }
-  .blockInlineList {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 1px solid red;
-    /* justify-content: center; */
-  }
-`;
