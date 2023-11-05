@@ -1,6 +1,16 @@
 import { Block } from "./../types/blockType";
 import sample from "assets/image/sample.jpg";
 
+export const initialBlock: Block[] = [
+  {
+    blockId: 0,
+    parentId: null,
+    childernIds: [] as number[],
+    deps: 0,
+    type: "node",
+  },
+];
+
 export const page1: { pageId: number; blocks: Block[] } = {
   pageId: 1,
   blocks: [
@@ -71,19 +81,6 @@ export const page1: { pageId: number; blocks: Block[] } = {
       deps: 3,
       type: "image",
       data: sample,
-    },
-  ],
-};
-
-export const defaulPage: { pageId: number; blocks: Block[] } = {
-  pageId: 1,
-  blocks: [
-    {
-      blockId: 0,
-      parentId: null,
-      childernIds: [],
-      deps: 0,
-      type: "node",
     },
   ],
 };

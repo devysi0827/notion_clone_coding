@@ -7,5 +7,5 @@ export const pageState = atom<number>({
 
 export const pageListState = atom<number[]>({
   key: "pageList",
-  default: [1, 2, 3],
+  default: [1],
 });
