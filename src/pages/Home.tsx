@@ -2,14 +2,22 @@ import RightPanel from "components/RightPanel";
 import { useRecoilState } from "recoil";
 import { pageState } from "recoil/pageState";
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import BlockServices from "services/blockServices";
 import { blockDataState } from "recoil/blockState";
 import BlockTree from "components/BlockTree";
 
 export default function Home() {
+  const ref = useRef<HTMLDivElement | null>(null);
   const [page, setPage] = useRecoilState(pageState);
   const [blockDatas, setBlockDatas] = useRecoilState(blockDataState);
+
+  // useEffect(() => {
+  //   if (ref && ref.current) {
+  //     const offsetX = ref.current.getBoundingClientRect().left;
+  //     const offsetY = ref.current.getBoundingClientRect().top;
+  //   }
+  // }, [page]);
 
   useEffect(() => {
     BlockServices.getBlocks(page).then((res) =>
@@ -27,7 +35,9 @@ export default function Home() {
         ) : (
           <>
             <p className="heading">{page}번 페이지</p>
-            {blockDatas && <BlockTree blockId={0} />}
+            <div className="page" ref={ref}>
+              {blockDatas && <BlockTree blockId={0} />}
+            </div>
           </>
         )}
       </div>
@@ -48,17 +58,20 @@ const Container = styled.div`
     font-weight: 900;
     margin-bottom: 20px;
   }
-  .blockPage {
+  .page {
+    user-select: none;
+  }
+  .page-block {
     display: flex;
     flex-direction: column;
     border: 1px solid black;
   }
-  .blockLine {
+  .line-block {
     display: flex;
     align-items: center;
     border: 1px solid blue;
   }
-  .blockInlineList {
+  .list-block {
     display: flex;
     flex-direction: column;
     align-items: center;

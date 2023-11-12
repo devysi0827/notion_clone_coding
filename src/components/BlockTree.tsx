@@ -15,24 +15,13 @@ export default function BlockTree(props: { blockId: number }) {
   const nameSelector = (deps: number) => {
     switch (deps) {
       case 0:
-        return "blockPage";
+        return "page-block";
       case 1:
-        return "blockLine";
+        return "line-block";
       case 2:
-        return "blockInlineList";
+        return "list-block";
       default:
-        return "";
-    }
-  };
-
-  const componentSelctor = (type: string, data: any) => {
-    switch (type) {
-      case "text":
-        return <TextBlock data={data} />;
-      case "image":
-        return <ImageBlock data={data} />;
-      default:
-        return <div />;
+        return "content-block";
     }
   };
 
@@ -47,7 +36,14 @@ export default function BlockTree(props: { blockId: number }) {
           ))}
         </div>
       ) : (
-        <>{componentSelctor(block.type, block.data)}</>
+        <>
+          {
+            {
+              text: <TextBlock data={block.data} />,
+              image: <ImageBlock data={block.data} />,
+            }[block.type]
+          }
+        </>
       )}
     </>
   );
