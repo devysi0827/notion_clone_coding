@@ -1,29 +1,27 @@
-import RightPanel from "components/RightPanel";
+import RightPanel from "components/RightPanel/RightPanel";
 import { useRecoilState } from "recoil";
 import { pageState } from "recoil/pageState";
 import styled from "styled-components";
 import { useEffect, useRef } from "react";
 import BlockServices from "services/blockServices";
 import { blockDataState } from "recoil/blockState";
-import BlockTree from "components/BlockTree";
+import BlockTree from "components/BlockTree/BlockTree";
+import useDND from "utills/useDND";
+import { Block } from "types/blockType";
 
 export default function Home() {
   const ref = useRef<HTMLDivElement | null>(null);
   const [page, setPage] = useRecoilState(pageState);
   const [blockDatas, setBlockDatas] = useRecoilState(blockDataState);
-
-  // useEffect(() => {
-  //   if (ref && ref.current) {
-  //     const offsetX = ref.current.getBoundingClientRect().left;
-  //     const offsetY = ref.current.getBoundingClientRect().top;
-  //   }
-  // }, [page]);
+  const { dragMove } = useDND(ref);
 
   useEffect(() => {
-    BlockServices.getBlocks(page).then((res) =>
-      setBlockDatas(res.data.data.blocks)
-    );
-  }, [page, setBlockDatas]);
+    BlockServices.getBlocks(page).then((res) => {
+      const map = blockDatas;
+      res.data.data.blocks.map((block: Block) => map.set(block.blockId, block));
+      setBlockDatas(map);
+    });
+  }, [page, setBlockDatas, blockDatas]);
 
   return (
     <Container>
@@ -35,7 +33,13 @@ export default function Home() {
         ) : (
           <>
             <p className="heading">{page}번 페이지</p>
-            <div className="page" ref={ref}>
+            <div
+              className="page"
+              onMouseMove={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+                dragMove(e)
+              }
+              ref={ref}
+            >
               {blockDatas && <BlockTree blockId={0} />}
             </div>
           </>

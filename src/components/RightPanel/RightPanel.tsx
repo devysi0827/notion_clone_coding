@@ -31,7 +31,7 @@ export default function RightPanel() {
         <div className="toolMenu">
           <div className="bold">블록 도구모음</div>
           <div onClick={addTextBlock}>+ 텍스트 블록 추가</div>
-          <div onClick={() => addImageBlock()}>+ 이미지 블록 추가</div>
+          <div onClick={addImageBlock}>+ 이미지 블록 추가</div>
         </div>
       )}
     </Container>

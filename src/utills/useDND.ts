@@ -20,12 +20,14 @@ function useDND(ref: React.MutableRefObject<HTMLDivElement | null>) {
 
   // 전체로 올려야함
   const dragMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    console.log("isDiffernent", isDrag);
     if (!isDrag) return;
     setLeft(e.clientX - shiftX);
     setTop(e.clientY - shiftY);
   };
 
   const dragEnd = () => {
+    if (!isDrag) return;
     setIsDrag(false);
   };
 
