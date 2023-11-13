@@ -1,7 +1,7 @@
 import { Block } from "../../types/blockType";
 import DNDBlock from "components/Blocks/DNDBlock";
 import { useRecoilState } from "recoil";
-import { blockDataState } from "recoil/blockState";
+import { blockDataState } from "store/blockState";
 
 export default function BlockTree(props: { blockId: number }) {
   const { blockId } = props;

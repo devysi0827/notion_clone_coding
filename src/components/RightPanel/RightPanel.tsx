@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil";
-import { useAddBlock } from "recoil/blockState";
-import { pageListState, pageState } from "recoil/pageState";
+import { useAddBlock } from "store/blockState";
+import { pageListState, pageState } from "store/pageState";
 import PageServices from "services/pageServices";
 import styled from "styled-components";
 
