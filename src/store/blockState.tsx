@@ -38,7 +38,6 @@ export const useAddBlock = () => {
   };
 
   const addTextBlock = () => {
-    console.log("do");
     addBlock("text", "placeholder");
   };
 
@@ -47,6 +46,13 @@ export const useAddBlock = () => {
   };
 
   return { addTextBlock, addImageBlock };
+};
+
+export const useDeleteBlock = () => {};
+
+export const useChangeBlock = () => {
+  //to
+  //from
 };
 
 // deleteBlock
