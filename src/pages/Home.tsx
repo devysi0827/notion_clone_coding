@@ -1,13 +1,13 @@
 import RightPanel from "components/RightPanel/RightPanel";
 import { useRecoilState } from "recoil";
-import { pageState } from "recoil/pageState";
+import { pageState } from "store/pageState";
 import styled from "styled-components";
 import { useEffect, useRef } from "react";
 import BlockServices from "services/blockServices";
-import { blockDataState } from "recoil/blockState";
+import { blockDataState } from "store/blockState";
 import BlockTree from "components/BlockTree/BlockTree";
 import useDND from "utills/useDND";
-import { Block } from "types/blockType";
+import { blockArrToMap } from "utills/blockUtils";
 
 export default function Home() {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -17,11 +17,10 @@ export default function Home() {
 
   useEffect(() => {
     BlockServices.getBlocks(page).then((res) => {
-      const map = blockDatas;
-      res.data.data.blocks.map((block: Block) => map.set(block.blockId, block));
-      setBlockDatas(map);
+      const newMap = blockArrToMap(res.data.data.blocks);
+      setBlockDatas(newMap);
     });
-  }, [page, setBlockDatas, blockDatas]);
+  }, [page, setBlockDatas]);
 
   return (
     <Container>
