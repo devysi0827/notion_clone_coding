@@ -1,20 +1,16 @@
 import { Block } from "types/blockType";
 
-export const findMaxId = (blockDatas: Block[]) => {
-  if (blockDatas.length === 0) {
-    return -1;
-  }
+export function findMaxId(blockDatas: Map<number, Block>) {
+  let maxId = null;
 
-  let maxId = blockDatas[0].blockId;
-
-  for (let i = 1; i < blockDatas.length; i++) {
-    if (blockDatas[i].blockId > maxId) {
-      maxId = blockDatas[i].blockId;
+  for (const key of blockDatas.keys()) {
+    if (maxId === null || key > maxId) {
+      maxId = key;
     }
   }
 
   return maxId;
-};
+}
 
 export const findBlockDeps = (blockDatas: Block[], parentId: number) => {
   if (blockDatas.length === 0) {

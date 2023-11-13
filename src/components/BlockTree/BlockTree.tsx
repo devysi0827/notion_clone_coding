@@ -1,11 +1,12 @@
-import { Block } from "../types/blockType";
-import TextBlock from "./TextBlock";
-import ImageBlock from "./ImageBlock";
-import { useFindBlock } from "recoil/blockState";
+import { Block } from "../../types/blockType";
+import DNDBlock from "components/Blocks/DNDBlock";
+import { useRecoilState } from "recoil";
+import { blockDataState } from "recoil/blockState";
 
 export default function BlockTree(props: { blockId: number }) {
   const { blockId } = props;
-  const block: Block | null = useFindBlock(blockId);
+  const [blockDatas, setBlockDatas] = useRecoilState(blockDataState);
+  const block: Block | undefined = blockDatas.get(blockId);
 
   // Block Type Guard를 위해서 작성했는데 이 부분이 좀 고민됩니다.
   if (!block) {
@@ -15,24 +16,13 @@ export default function BlockTree(props: { blockId: number }) {
   const nameSelector = (deps: number) => {
     switch (deps) {
       case 0:
-        return "blockPage";
+        return "page-block";
       case 1:
-        return "blockLine";
+        return "line-block";
       case 2:
-        return "blockInlineList";
+        return "list-block";
       default:
-        return "";
-    }
-  };
-
-  const componentSelctor = (type: string, data: any) => {
-    switch (type) {
-      case "text":
-        return <TextBlock data={data} />;
-      case "image":
-        return <ImageBlock data={data} />;
-      default:
-        return <div />;
+        return "content-block";
     }
   };
 
@@ -47,7 +37,7 @@ export default function BlockTree(props: { blockId: number }) {
           ))}
         </div>
       ) : (
-        <>{componentSelctor(block.type, block.data)}</>
+        <DNDBlock blockId={blockId} />
       )}
     </>
   );

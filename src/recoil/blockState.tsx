@@ -3,28 +3,29 @@ import { Block } from "types/blockType";
 import { findMaxId } from "utills/blockUtils";
 import sample from "assets/image/sample.jpg";
 
-export const blockDataState = atom<Block[]>({
+export const blockDataState = atom<Map<number, Block>>({
   key: "blockDatas",
-  default: [],
+  default: new Map(),
 });
 
-export const useFindBlock = (blockId: number) => {
-  const [blockDatas, setBlockDatas] = useRecoilState(blockDataState);
-  let block = {} as Block;
-  for (let i = 0; i < blockDatas.length; i += 1) {
-    if (blockDatas[i].blockId === blockId) {
-      block = blockDatas[i];
-      return block;
-    }
-  }
-  return null;
-};
+// export const useFindBlock = (blockId: number) => {
+//   const [blockDatas, setBlockDatas] = useRecoilState(blockDataState);
+//   let block = {} as Block;
+//   for (let i = 0; i < blockDatas.length; i += 1) {
+//     if (blockDatas[i].blockId === blockId) {
+//       block = blockDatas[i];
+//       return block;
+//     }
+//   }
+//   return null;
+// };
 
 export const useAddBlock = () => {
   const [blockDatas, setBlockDatas] = useRecoilState(blockDataState);
 
   const addBlock = (blockType: "text" | "image", data: any) => {
-    const newId = findMaxId(blockDatas) + 1;
+    const maxId = findMaxId(blockDatas);
+    const newId = maxId ? maxId + 1 : 0;
     const newBlock = {
       blockId: newId,
       parentId: 0,
@@ -34,15 +35,25 @@ export const useAddBlock = () => {
       data: data,
     };
 
-    setBlockDatas((blockDatas) => {
-      const updatedData = blockDatas.map((block) => {
-        if (block.blockId === 0) {
-          return { ...block, childernIds: [...block.childernIds, newId] };
-        }
-        return block;
-      });
-      return [...updatedData, newBlock];
+    blockDatas.set(newId, newBlock);
+
+    const parentBlock: Block | undefined = blockDatas.get(0);
+    if (!parentBlock) return;
+
+    blockDatas.set(0, {
+      ...parentBlock,
+      childernIds: [...parentBlock.childernIds, newId],
     });
+
+    // setBlockDatas((blockDatas) => {
+    //   const updatedData = blockDatas.map((block) => {
+    //     if (block.blockId === 0) {
+    //       return { ...block, childernIds: [...block.childernIds, newId] };
+    //     }
+    //     return block;
+    //   });
+    //   return [...updatedData, newBlock];
+    // });
   };
 
   const addTextBlock = () => {
