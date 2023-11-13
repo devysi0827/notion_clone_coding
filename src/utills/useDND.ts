@@ -50,7 +50,7 @@ function useDND(ref: React.MutableRefObject<HTMLDivElement | null>) {
   const onDragMoveHandle = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
-    console.log(isEntered);
+    // console.log(isEntered);
     if (!globalDragState) return;
     if (!isEntered) return;
 
@@ -115,7 +115,7 @@ function useDND(ref: React.MutableRefObject<HTMLDivElement | null>) {
     if (!globalDragState) return;
     if (isDrag) return;
     const blockId = parseInt(e.currentTarget.id.substring(6), 10);
-    console.log(blockId);
+    // console.log(blockId);
     if (targetBlockId !== blockId) {
       setTargetBlockId(blockId);
     }

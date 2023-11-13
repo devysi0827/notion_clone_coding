@@ -1,7 +1,9 @@
 import { Block } from "../../types/blockType";
-import DNDBlock from "components/Blocks/DNDBlock";
+import DnDBlock from "components/DnDBlock/DnDBlock";
 import { useRecoilState } from "recoil";
 import { blockDataState } from "store/blockState";
+import TextBlock from "./../Blocks/TextBlock";
+import ImageBlock from "./../Blocks/ImageBlock";
 
 export default function BlockTree(props: { blockId: number }) {
   const { blockId } = props;
@@ -37,7 +39,15 @@ export default function BlockTree(props: { blockId: number }) {
           ))}
         </div>
       ) : (
-        <DNDBlock blockId={blockId} />
+        <DnDBlock blockId={blockId}>
+          {
+            {
+              text: <TextBlock data={block.data} />,
+              image: <ImageBlock data={block.data} />,
+              node: <div />,
+            }[block.type]
+          }
+        </DnDBlock>
       )}
     </>
   );
